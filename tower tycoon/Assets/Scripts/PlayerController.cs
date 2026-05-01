@@ -1,45 +1,48 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    // Объявление полей
+    // Declarating fields
     public float speed = 5f;
     private Rigidbody2D rb;
-    private Vector2 movement;
     private Animator animator;
     private SpriteRenderer sprite;
 
-    // Стартовый метод
+    // Starting Method
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+
+        if (GameInput.Instance == null)
+            Debug.LogError("GameInput.Instance == null");
     }
 
-    // Апдейт фреймов
+    // Updating frames
     void Update()
     {
-        // ToDo: GameInput вместо GetAxisRaw
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        if (GameInput.Instance == null)
+            return;
+
+        Vector2 movement = GameInput.Instance.MovementInput;
 
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
+        // Sprite rotation
         if (movement.x < 0)
-        {
             sprite.flipX = true;
-        }
         else if (movement.x > 0)
-        {
             sprite.flipX = false;
-        }
     }
 
-    // Фиксированный апдейт
+    // Fixed Update
     private void FixedUpdate()
     {
+        if (GameInput.Instance == null)
+            return;
+
+        Vector2 movement = GameInput.Instance.MovementInput;
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
 }
