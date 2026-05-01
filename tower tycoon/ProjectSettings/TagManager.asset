@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Wall + sand 1
+    uniqueID: 4114029153
+    locked: 0
+  - name: 'Wall + sand 2 '
+    uniqueID: 3619519121
+    locked: 0
+  - name: Detail base
+    uniqueID: 1822005081
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []
