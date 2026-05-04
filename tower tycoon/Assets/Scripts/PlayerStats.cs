@@ -3,16 +3,14 @@ using TMPro;
 
 public class PlayerStats : MonoBehaviour
 {
-    // Singleton instance for global access from other scripts
     public static PlayerStats Instance;
 
-    private int totalMoney = 0;
+    private int totalMoney = 50; 
 
     [Header("UI Settings")]
-    [SerializeField] private TextMeshProUGUI moneyText; // Reference to UI text displaying money amount
-    [SerializeField] private int rewardPerEnemy = 10; // Amount of money rewarded for each killed enemy
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private int rewardPerEnemy = 10;
 
-    // Called when the script instance is being loaded (before Start)
     void Awake()
     {
         if (Instance == null)
@@ -21,27 +19,27 @@ public class PlayerStats : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // Called before the first frame update
     void Start()
     {
         UpdateMoneyUI();
     }
 
-    // Adds specified amount of money to player's total
     public void AddMoney(int amount)
     {
         totalMoney += amount;
         UpdateMoneyUI();
-        Debug.Log($"Received {amount} coins! Total: {totalMoney}");
+
+        if (amount > 0)
+            Debug.Log($"Получено {amount} монет! Всего: {totalMoney}");
+        else
+            Debug.Log($"Потрачено {-amount} монет! Осталось: {totalMoney}");
     }
 
-    // Method to add enemy kill reward
     public void AddEnemyReward()
     {
         AddMoney(rewardPerEnemy);
     }
 
-    // Updates the UI text element with current money value
     void UpdateMoneyUI()
     {
         if (moneyText != null)
@@ -50,6 +48,14 @@ public class PlayerStats : MonoBehaviour
             Debug.LogWarning("Money Text not assigned in the inspector!");
     }
 
-    // Public getter method to retrieve current money amount
     public int GetMoney() => totalMoney;
+    public bool SpendMoney(int amount)
+    {
+        if (totalMoney >= amount)
+        {
+            AddMoney(-amount);
+            return true;
+        }
+        return false;
+    }
 }
