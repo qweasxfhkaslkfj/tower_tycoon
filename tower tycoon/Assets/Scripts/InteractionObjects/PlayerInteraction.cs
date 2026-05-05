@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    // Public fields
-    private InteractableObject currentInteractable;
+    // Fields
+    [SerializeField] private PlayerStats PlayerStats;
+    private IInteractableObject currentInteractable;
     public GameObject promptPanel;
     public Text promptText;
 
@@ -24,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteractPressed()
     {
         if (currentInteractable != null)
-            currentInteractable.Interact();
+            currentInteractable.Interact(PlayerStats);
     }
 
     // Object destruction
@@ -37,7 +38,7 @@ public class PlayerInteraction : MonoBehaviour
     // Checking the location on the object
     private void OnTriggerEnter2D(Collider2D other)
     {
-        InteractableObject interactable = other.GetComponent<InteractableObject>();
+        IInteractableObject interactable = other.GetComponent<IInteractableObject>();
 
         if (interactable != null)
         {
@@ -60,7 +61,7 @@ public class PlayerInteraction : MonoBehaviour
     // Checking the exit at the object
     private void OnTriggerExit2D(Collider2D other)
     {
-        InteractableObject interactable = other.GetComponent<InteractableObject>();
+        IInteractableObject interactable = other.GetComponent<IInteractableObject>();
 
         if (interactable != null && currentInteractable == interactable)
         {

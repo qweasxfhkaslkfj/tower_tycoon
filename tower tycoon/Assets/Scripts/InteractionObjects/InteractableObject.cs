@@ -1,19 +1,17 @@
 using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public enum UpgradeType 
+{ 
+    PlayerUpgrade, 
+    TurretUpgrade,
+    ModifierUpdate
+}
+
+public interface IInteractableObject
 {
-    // Public fields
-    public UpgradeType upgradeType;
-    public enum UpgradeType 
-    { 
-        PlayerUpgrade, 
-        TurretUpgrade,
-        ModifierUpdate
-    }
+    // Getter
+    UpgradeType upgradeType { get; }
 
     // Stub
-    public void Interact()
-    {
-        Debug.Log($"Взаимодействие с {upgradeType}");
-    }
+    void Interact(PlayerStats playerStats);
 }

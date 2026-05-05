@@ -9,7 +9,7 @@ public class GameInput : MonoBehaviour
     public Vector2 MovementInput { get; private set; }
 
     // Declaring fields
-    public event System.Action OnInteract;
+    public event Action OnInteract;
     private GameControls controls;
 
     private void Awake()
