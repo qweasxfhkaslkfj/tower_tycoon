@@ -4,58 +4,54 @@ using UnityEngine.Events;
 public class UpgradeTower : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private GameObject upgradeUIPanel; // Reference to the upgrade UI panel
-    [SerializeField] private KeyCode interactKey = KeyCode.E; // Key to press for interaction
-    [SerializeField] private float interactionRadius = 2f; // Radius for interaction (visual only)
+    [SerializeField] private GameObject upgradeUIPanel;
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [SerializeField] private float interactionRadius = 2f;
 
     [Header("Events")]
-    public UnityEvent OnPlayerEnter; // Event triggered when player enters trigger zone
-    public UnityEvent OnPlayerExit; // Event triggered when player exits trigger zone
-    public UnityEvent OnInteract; // Event triggered when player interacts with tower
+    public UnityEvent OnPlayerEnter;
+    public UnityEvent OnPlayerExit;
+    public UnityEvent OnInteract;
 
-    private bool isPlayerInRange = false; // Flag to track if player is inside trigger zone
-    private GameObject playerObject; // Reference to the player game object
+    private bool isPlayerInRange = false;
+    private GameObject playerObject;
 
     void Start()
     {
-        // Initially hide the upgrade UI panel when game starts
         if (upgradeUIPanel != null)
             upgradeUIPanel.SetActive(false);
+
     }
 
     void Update()
     {
-        // Check if player is in range AND presses the interact key
         if (isPlayerInRange && Input.GetKeyDown(interactKey))
         {
             OpenUpgradeMenu();
             OnInteract?.Invoke();
+
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the entering object has the "Player" tag
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
             playerObject = other.gameObject;
             OnPlayerEnter?.Invoke();
-
             ShowInteractionPrompt(true);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        // Check if the exiting object has the "Player" tag
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
             playerObject = null;
             OnPlayerExit?.Invoke();
 
-            // Automatically close the upgrade menu when player leaves the zone
             if (upgradeUIPanel != null && upgradeUIPanel.activeSelf)
                 CloseUpgradeMenu();
 
@@ -65,14 +61,19 @@ public class UpgradeTower : MonoBehaviour
 
     void OpenUpgradeMenu()
     {
-        if (upgradeUIPanel != null)
+        if (upgradeUIPanel != null && playerObject != null)
         {
             upgradeUIPanel.SetActive(true);
 
-            // Update the UI to show current stats and money
+            PlayerController playerController = playerObject.GetComponent<PlayerController>();
+            PlayerStats playerStats = PlayerStats.Instance;
+
             PlayerUpgradeShop shop = upgradeUIPanel.GetComponent<PlayerUpgradeShop>();
             if (shop != null)
+            {
+                shop.Initialize(playerController, playerStats);
                 shop.UpdateUI();
+            }
 
             Time.timeScale = 0f;
         }
@@ -89,13 +90,11 @@ public class UpgradeTower : MonoBehaviour
 
     void ShowInteractionPrompt(bool show)
     {
-        // Display a debug message as a prompt 
         Debug.Log(show ? $"Press {interactKey} to open upgrade shop" : "");
     }
 
     void OnDrawGizmosSelected()
     {
-        // Draw a green wire sphere to visualize interaction radius in editor
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, interactionRadius);
     }

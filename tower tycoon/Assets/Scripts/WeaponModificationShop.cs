@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using TMPro;
 
-
 public class WeaponModificationShop : MonoBehaviour
 {
     [Header("Modification Settings")]
@@ -27,25 +26,18 @@ public class WeaponModificationShop : MonoBehaviour
     [Header("Close Button")]
     [SerializeField] private Button closeButton;
 
-    // Modification states (saved locally)
     private bool hasExplosiveMod = false;
     private bool hasFreezeMod = false;
 
-    // References
-    private PlayerStats playerStats;
+    private PlayerStats currentPlayerStats;
 
-    // Key for saving data
     private const string EXPLOSIVE_MOD_KEY = "HasExplosiveMod";
     private const string FREEZE_MOD_KEY = "HasFreezeMod";
 
     void Start()
     {
-        playerStats = PlayerStats.Instance;
-
-        // Load saved modifications
         LoadModifications();
 
-        // Subscribe button events
         if (explosivePurchaseButton != null)
             explosivePurchaseButton.onClick.AddListener(PurchaseExplosiveMod);
 
@@ -54,13 +46,15 @@ public class WeaponModificationShop : MonoBehaviour
 
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
+    }
 
-        UpdateUI();
+    public void Initialize(PlayerStats playerStats)
+    {
+        currentPlayerStats = playerStats;
     }
 
     void LoadModifications()
     {
-        // Load from PlayerPrefs (cached between game sessions)
         hasExplosiveMod = PlayerPrefs.GetInt(EXPLOSIVE_MOD_KEY, 0) == 1;
         hasFreezeMod = PlayerPrefs.GetInt(FREEZE_MOD_KEY, 0) == 1;
     }
@@ -74,11 +68,11 @@ public class WeaponModificationShop : MonoBehaviour
 
     public void UpdateUI()
     {
-        // Update money display
-        if (moneyText != null && playerStats != null)
-            moneyText.text = $"{playerStats.GetMoney()}";
+        if (moneyText != null && currentPlayerStats != null)
+            moneyText.text = $"{currentPlayerStats.GetMoney()}";
+        else if (moneyText != null)
+            moneyText.text = "0";
 
-        // Update explosive mod UI
         if (explosiveCostText != null)
         {
             if (!hasExplosiveMod)
@@ -97,7 +91,6 @@ public class WeaponModificationShop : MonoBehaviour
             explosiveStatusText.color = hasExplosiveMod ? Color.green : Color.gray;
         }
 
-        // Update freeze mod UI
         if (freezeCostText != null)
         {
             if (!hasFreezeMod)
@@ -116,24 +109,23 @@ public class WeaponModificationShop : MonoBehaviour
             freezeStatusText.color = hasFreezeMod ? Color.green : Color.gray;
         }
 
-        // Update button states
         UpdateButtonStates();
     }
 
     void UpdateButtonStates()
     {
+        bool hasValidPlayer = currentPlayerStats != null;
+
         if (explosivePurchaseButton != null)
         {
-            explosivePurchaseButton.interactable = !hasExplosiveMod &&
-                                                   playerStats != null &&
-                                                   playerStats.GetMoney() >= explosiveCost;
+            explosivePurchaseButton.interactable = !hasExplosiveMod && hasValidPlayer &&
+                                                   currentPlayerStats.GetMoney() >= explosiveCost;
         }
 
         if (freezePurchaseButton != null)
         {
-            freezePurchaseButton.interactable = !hasFreezeMod &&
-                                                playerStats != null &&
-                                                playerStats.GetMoney() >= freezeCost;
+            freezePurchaseButton.interactable = !hasFreezeMod && hasValidPlayer &&
+                                                currentPlayerStats.GetMoney() >= freezeCost;
         }
     }
 
@@ -145,19 +137,20 @@ public class WeaponModificationShop : MonoBehaviour
             return;
         }
 
-        if (playerStats != null && playerStats.GetMoney() >= explosiveCost)
+        if (currentPlayerStats == null)
         {
-            // Deduct money
-            playerStats.AddMoney(-explosiveCost);
+            ShowMessage("Error: No player data!", Color.red);
+            return;
+        }
 
-            // Mark as purchased
+        if (currentPlayerStats.GetMoney() >= explosiveCost)
+        {
+            currentPlayerStats.AddMoney(-explosiveCost);
             hasExplosiveMod = true;
             SaveModifications();
 
-            // Just log the purchase - you can add your own logic here later
-            Debug.Log("[WeaponShop] Explosive mod purchased! (You can add your own effect here)");
+            Debug.Log("[WeaponShop] Explosive mod purchased!");
             ShowMessage("Взрывные снаряды куплены! Теперь ваши снаряды взрываются!", Color.green);
-
             UpdateUI();
         }
         else
@@ -174,19 +167,20 @@ public class WeaponModificationShop : MonoBehaviour
             return;
         }
 
-        if (playerStats != null && playerStats.GetMoney() >= freezeCost)
+        if (currentPlayerStats == null)
         {
-            // Deduct money
-            playerStats.AddMoney(-freezeCost);
+            ShowMessage("Error: No player data!", Color.red);
+            return;
+        }
 
-            // Mark as purchased
+        if (currentPlayerStats.GetMoney() >= freezeCost)
+        {
+            currentPlayerStats.AddMoney(-freezeCost);
             hasFreezeMod = true;
             SaveModifications();
 
-            // Just log the purchase - you can add your own logic here later
-            Debug.Log("[WeaponShop] Freeze mod purchased! (You can add your own effect here)");
+            Debug.Log("[WeaponShop] Freeze mod purchased!");
             ShowMessage("Заморозка снарядов куплена! Враги будут замораживаться!", Color.green);
-
             UpdateUI();
         }
         else
@@ -219,9 +213,9 @@ public class WeaponModificationShop : MonoBehaviour
     {
         gameObject.SetActive(false);
         Time.timeScale = 1f;
+        currentPlayerStats = null;
     }
 
-    // Public getters for other scripts to check what mods are bought
     public bool HasExplosiveMod => hasExplosiveMod;
     public bool HasFreezeMod => hasFreezeMod;
 }

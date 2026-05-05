@@ -49,6 +49,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     public int GetMoney() => totalMoney;
+
     public bool SpendMoney(int amount)
     {
         if (totalMoney >= amount)
@@ -57,5 +58,10 @@ public class PlayerStats : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public static void ResetInstance()
+    {
+        Instance = null;
     }
 }

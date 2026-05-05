@@ -1,16 +1,13 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    // Объявление полей
     public float speed = 5f;
     private Rigidbody2D rb;
     private Vector2 movement;
     private Animator animator;
     private SpriteRenderer sprite;
 
-    // Стартовый метод
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -18,14 +15,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    // Апдейт фреймов
     void Update()
     {
-        // ToDo: GameInput вместо GetAxisRaw
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        animator.SetFloat("Speed", movement.sqrMagnitude);
+        if (animator != null)
+            animator.SetFloat("Speed", movement.sqrMagnitude);
 
         if (movement.x < 0)
         {
@@ -37,9 +33,18 @@ public class NewMonoBehaviourScript : MonoBehaviour
         }
     }
 
-    // Фиксированный апдейт
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
+
+    //Added method for changing speed from the store
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+        Debug.Log($"Player speed changed to: {speed}");
+    }
+
+    //Added method for getting current speed
+    public float GetSpeed() => speed;
 }

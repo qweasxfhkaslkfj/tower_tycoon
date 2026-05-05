@@ -1,163 +1,160 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // TextMeshPro for high-quality UI text
+using TMPro;
 
 public class PlayerUpgradeShop : MonoBehaviour
 {
     [Header("Upgrade Settings")]
-    [SerializeField] private int maxUpgradeLevel = 2; // Maximum upgrade level for any stat (2 upgrades max)
+    [SerializeField] private int maxUpgradeLevel = 2;
 
     [Header("Speed Upgrade")]
-    [SerializeField] private int[] speedCosts = new int[] { 100, 200 }; // Cost for level 1 and level 2 speed upgrades
-    [SerializeField] private float[] speedBonuses = new float[] { 1.5f, 2f }; // Speed multipliers: x1.5 then x2.0
+    [SerializeField] private int[] speedCosts = new int[] { 100, 200 };
+    [SerializeField] private float[] speedBonuses = new float[] { 1.5f, 2f };
 
     [Header("Discount Upgrade")]
-    [SerializeField] private int[] discountCosts = new int[] { 150, 250 }; // Cost for level 1 and level 2 discount upgrades
-    [SerializeField] private float[] discountValues = new float[] { 0.5f, 0.8f }; // Discount values: 50% then 80% off
+    [SerializeField] private int[] discountCosts = new int[] { 150, 250 };
+    [SerializeField] private float[] discountValues = new float[] { 0.5f, 0.8f };
 
     [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI moneyText; // UI text displaying current money
-    [SerializeField] private Button speedUpgradeButton; // Button to upgrade speed
-    [SerializeField] private Button discountUpgradeButton; // Button to upgrade discount
-    [SerializeField] private TextMeshProUGUI speedLevelText; // Text showing current speed level (0/2, 1/2, 2/2)
-    [SerializeField] private TextMeshProUGUI discountLevelText; // Text showing current discount level
-    [SerializeField] private TextMeshProUGUI speedCostText; // Text showing cost of next speed upgrade
-    [SerializeField] private TextMeshProUGUI discountCostText; // Text showing cost of next discount upgrade
-    [SerializeField] private TextMeshProUGUI speedBonusText; // Text showing current speed multiplier
-    [SerializeField] private TextMeshProUGUI discountBonusText; // Text showing current discount percentage
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private Button speedUpgradeButton;
+    [SerializeField] private Button discountUpgradeButton;
+    [SerializeField] private TextMeshProUGUI speedLevelText;
+    [SerializeField] private TextMeshProUGUI discountLevelText;
+    [SerializeField] private TextMeshProUGUI speedCostText;
+    [SerializeField] private TextMeshProUGUI discountCostText;
+    [SerializeField] private TextMeshProUGUI speedBonusText;
+    [SerializeField] private TextMeshProUGUI discountBonusText;
 
     [Header("Messages")]
-    [SerializeField] private TextMeshProUGUI messageText; // UI text for feedback messages
-    [SerializeField] private float messageDuration = 2f; // How long messages stay on screen
+    [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private float messageDuration = 2f;
 
-    // Current upgrade levels (0 = not upgraded, 1 = first upgrade, 2 = max)
     private int currentSpeedLevel = 0;
     private int currentDiscountLevel = 0;
+    private float currentDiscount = 0f;
 
-    // References to player components
-    private NewMonoBehaviourScript playerController; // Reference to player movement script
-    private PlayerStats playerStats; // Reference to player stats (money)
-    private float currentDiscount = 0f; // Local storage of current discount value
+    // Temporary links that are installed when the store is opened
+    private PlayerController currentPlayerController;
+    private PlayerStats currentPlayerStats;
 
     void Start()
     {
-        // Find and store player components
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerController = player.GetComponent<NewMonoBehaviourScript>(); // Get movement script
-            playerStats = PlayerStats.Instance; // Get stats via singleton
-        }
-
-        // Subscribe button click events to their methods
         if (speedUpgradeButton != null)
             speedUpgradeButton.onClick.AddListener(UpgradeSpeed);
 
         if (discountUpgradeButton != null)
             discountUpgradeButton.onClick.AddListener(UpgradeDiscount);
-
-        UpdateUI(); // Initialize UI with current values
     }
 
-    // Updates all UI elements with current stats and money
+    // Called when opening a store - passing the current player
+    public void Initialize(PlayerController playerController, PlayerStats playerStats)
+    {
+        currentPlayerController = playerController;
+        currentPlayerStats = playerStats;
+        UpdateUI();
+    }
+
     public void UpdateUI()
     {
-        // Update money display
-        if (moneyText != null && playerStats != null)
-            moneyText.text = $"{playerStats.GetMoney()}";
+        if (currentPlayerStats != null && moneyText != null)
+            moneyText.text = $"{currentPlayerStats.GetMoney()}";
+        else if (moneyText != null)
+            moneyText.text = "0";
 
-        // Update speed upgrade section
+        // Speed upgrade section
         if (speedLevelText != null)
             speedLevelText.text = $"{currentSpeedLevel}/{maxUpgradeLevel}";
 
         if (speedCostText != null)
         {
             if (currentSpeedLevel < maxUpgradeLevel)
-                speedCostText.text = $"{speedCosts[currentSpeedLevel]}"; // Show next upgrade cost
+                speedCostText.text = $"{speedCosts[currentSpeedLevel]}";
             else
-                speedCostText.text = "MAX"; // Show MAX when fully upgraded
+                speedCostText.text = "MAX";
         }
 
         if (speedBonusText != null)
         {
             if (currentSpeedLevel > 0)
-                speedBonusText.text = $"x{speedBonuses[currentSpeedLevel - 1]}"; // Show current multiplier
+                speedBonusText.text = $"x{speedBonuses[currentSpeedLevel - 1]}";
             else
-                speedBonusText.text = "x1"; // No upgrade yet
+                speedBonusText.text = "x1";
         }
 
-        // Update discount upgrade section
+        // Discount upgrade section
         if (discountLevelText != null)
             discountLevelText.text = $"{currentDiscountLevel}/{maxUpgradeLevel}";
 
         if (discountCostText != null)
         {
             if (currentDiscountLevel < maxUpgradeLevel)
-                discountCostText.text = $"{discountCosts[currentDiscountLevel]}"; // Show next upgrade cost
+                discountCostText.text = $"{discountCosts[currentDiscountLevel]}";
             else
-                discountCostText.text = "MAX"; // Show MAX when fully upgraded
+                discountCostText.text = "MAX";
         }
 
         if (discountBonusText != null)
         {
             if (currentDiscountLevel > 0)
-                discountBonusText.text = $"-{discountValues[currentDiscountLevel - 1] * 100}%"; // Show discount percentage
+                discountBonusText.text = $"-{discountValues[currentDiscountLevel - 1] * 100}%";
             else
-                discountBonusText.text = "0%"; // No discount yet
+                discountBonusText.text = "0%";
         }
 
-        UpdateButtonStates(); // Enable/disable buttons based on affordability
+        UpdateButtonStates();
     }
 
-    // Enables or disables upgrade buttons based on player's money
     void UpdateButtonStates()
     {
-        // Speed button: enabled if not max level AND player can afford it
+        bool hasValidPlayer = currentPlayerStats != null;
+
         if (speedUpgradeButton != null)
         {
-            bool canUpgrade = currentSpeedLevel < maxUpgradeLevel &&
-                             playerStats != null &&
-                             playerStats.GetMoney() >= speedCosts[currentSpeedLevel];
+            bool canUpgrade = hasValidPlayer &&
+                             currentSpeedLevel < maxUpgradeLevel &&
+                             currentPlayerStats.GetMoney() >= speedCosts[currentSpeedLevel];
             speedUpgradeButton.interactable = canUpgrade;
         }
 
-        // Discount button: enabled if not max level AND player can afford it
         if (discountUpgradeButton != null)
         {
-            bool canUpgrade = currentDiscountLevel < maxUpgradeLevel &&
-                             playerStats != null &&
-                             playerStats.GetMoney() >= discountCosts[currentDiscountLevel];
+            bool canUpgrade = hasValidPlayer &&
+                             currentDiscountLevel < maxUpgradeLevel &&
+                             currentPlayerStats.GetMoney() >= discountCosts[currentDiscountLevel];
             discountUpgradeButton.interactable = canUpgrade;
         }
     }
 
-    // Handles speed upgrade purchase
     void UpgradeSpeed()
     {
-        // Check if already at maximum level
         if (currentSpeedLevel >= maxUpgradeLevel)
         {
             ShowMessage("Speed is already maxed out!", Color.yellow);
             return;
         }
 
+        if (currentPlayerStats == null)
+        {
+            ShowMessage("Error: No player data!", Color.red);
+            return;
+        }
+
         int cost = speedCosts[currentSpeedLevel];
 
-        // Check if player has enough money
-        if (playerStats != null && playerStats.GetMoney() >= cost)
+        if (currentPlayerStats.GetMoney() >= cost)
         {
-            playerStats.AddMoney(-cost); // Deduct money
-            currentSpeedLevel++; // Increase upgrade level
+            currentPlayerStats.AddMoney(-cost);
+            currentSpeedLevel++;
 
-            // Apply speed boost to player movement
-            if (playerController != null)
+            if (currentPlayerController != null)
             {
-                float newSpeed = 5f * speedBonuses[currentSpeedLevel - 1]; // Calculate new speed (base 5 * multiplier)
-                playerController.speed = newSpeed; // Update player's speed
+                float newSpeed = 5f * speedBonuses[currentSpeedLevel - 1];
+                currentPlayerController.SetSpeed(newSpeed);
                 ShowMessage($"Speed increased! New speed: {newSpeed}", Color.green);
             }
 
-            UpdateUI(); // Refresh UI
+            UpdateUI();
         }
         else
         {
@@ -165,29 +162,35 @@ public class PlayerUpgradeShop : MonoBehaviour
         }
     }
 
-    // Handles discount upgrade purchase
     void UpgradeDiscount()
     {
-        // Check if already at maximum level
         if (currentDiscountLevel >= maxUpgradeLevel)
         {
             ShowMessage("Discount is already maxed out!", Color.yellow);
             return;
         }
 
+        if (currentPlayerStats == null)
+        {
+            ShowMessage("Error: No player data!", Color.red);
+            return;
+        }
+
         int cost = discountCosts[currentDiscountLevel];
 
-        // Check if player has enough money
-        if (playerStats != null && playerStats.GetMoney() >= cost)
+        if (currentPlayerStats.GetMoney() >= cost)
         {
-            playerStats.AddMoney(-cost); // Deduct money
-            currentDiscountLevel++; // Increase upgrade level
-
-            // Store the new discount value
+            currentPlayerStats.AddMoney(-cost);
+            currentDiscountLevel++;
             currentDiscount = discountValues[currentDiscountLevel - 1];
-            ShowMessage($"Weapon upgrade discount: {currentDiscount * 100}%!", Color.green);
 
-            UpdateUI(); // Refresh UI
+            // Update the discount in WeaponUpgradeManager
+            var weaponManager = WeaponUpgradeManager.Instance;
+            if (weaponManager != null)
+                weaponManager.SetDiscount(currentDiscount);
+
+            ShowMessage($"Weapon upgrade discount: {currentDiscount * 100}%!", Color.green);
+            UpdateUI();
         }
         else
         {
@@ -195,36 +198,34 @@ public class PlayerUpgradeShop : MonoBehaviour
         }
     }
 
-    // Shows a temporary message on the UI
     void ShowMessage(string message, Color color)
     {
         if (messageText != null)
         {
             messageText.text = message;
             messageText.color = color;
-            Invoke(nameof(ClearMessage), messageDuration); // Auto-clear after duration
+            Invoke(nameof(ClearMessage), messageDuration);
         }
         else
         {
-            Debug.Log(message); // Fallback to console if no UI reference
+            Debug.Log(message);
         }
     }
 
-    // Clears the message text
     void ClearMessage()
     {
         if (messageText != null)
             messageText.text = "";
     }
 
-    // Closes the upgrade menu (called by close button)
     public void CloseUpgradeMenu()
     {
-        gameObject.SetActive(false); // Hide the panel
-        Time.timeScale = 1f; // Resume game time
+        gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        currentPlayerController = null;
+        currentPlayerStats = null;
     }
 
-    // Public getters for external access
     public int GetSpeedLevel() => currentSpeedLevel;
     public int GetDiscountLevel() => currentDiscountLevel;
     public float GetCurrentDiscount() => currentDiscount;

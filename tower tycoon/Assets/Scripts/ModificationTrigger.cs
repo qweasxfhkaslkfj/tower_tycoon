@@ -7,11 +7,14 @@ public class ModificationTrigger : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
 
     private bool isPlayerInRange = false;
+    private GameObject playerObject;
+
 
     void Start()
     {
         if (modificationUIPanel != null)
             modificationUIPanel.SetActive(false);
+
     }
 
     void Update()
@@ -19,6 +22,9 @@ public class ModificationTrigger : MonoBehaviour
         if (isPlayerInRange && Input.GetKeyDown(interactKey))
         {
             OpenModificationMenu();
+
+            if (interactable != null)
+                interactable.Interact();
         }
     }
 
@@ -27,6 +33,7 @@ public class ModificationTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
+            playerObject = other.gameObject;
             Debug.Log($"Press {interactKey} to open weapon modification shop");
         }
     }
@@ -36,6 +43,7 @@ public class ModificationTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
+            playerObject = null;
             if (modificationUIPanel != null && modificationUIPanel.activeSelf)
                 CloseModificationMenu();
         }
@@ -43,16 +51,17 @@ public class ModificationTrigger : MonoBehaviour
 
     void OpenModificationMenu()
     {
-        if (modificationUIPanel != null)
+        if (modificationUIPanel != null && playerObject != null)
         {
             modificationUIPanel.SetActive(true);
 
-            // Update UI with current data
             WeaponModificationShop shop = modificationUIPanel.GetComponent<WeaponModificationShop>();
             if (shop != null)
+            {
+                shop.Initialize(playerObject.GetComponent<PlayerStats>());
                 shop.UpdateUI();
+            }
 
-            // Pause game while shop is open
             Time.timeScale = 0f;
         }
     }
