@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ModificationTrigger : MonoBehaviour
 {
@@ -7,14 +7,14 @@ public class ModificationTrigger : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
 
     private bool isPlayerInRange = false;
-    private GameObject playerObject;
-
+    private WeaponModificationShopLogic shopLogic;
 
     void Start()
     {
         if (modificationUIPanel != null)
             modificationUIPanel.SetActive(false);
 
+        shopLogic = GetComponent<WeaponModificationShopLogic>();
     }
 
     void Update()
@@ -22,9 +22,6 @@ public class ModificationTrigger : MonoBehaviour
         if (isPlayerInRange && Input.GetKeyDown(interactKey))
         {
             OpenModificationMenu();
-
-            if (interactable != null)
-                interactable.Interact();
         }
     }
 
@@ -33,7 +30,6 @@ public class ModificationTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            playerObject = other.gameObject;
             Debug.Log($"Press {interactKey} to open weapon modification shop");
         }
     }
@@ -43,7 +39,6 @@ public class ModificationTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            playerObject = null;
             if (modificationUIPanel != null && modificationUIPanel.activeSelf)
                 CloseModificationMenu();
         }
@@ -51,20 +46,30 @@ public class ModificationTrigger : MonoBehaviour
 
     void OpenModificationMenu()
     {
-        if (modificationUIPanel != null && playerObject != null)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerStats stats = player?.GetComponent<PlayerStats>();
+
+        if (stats != null)
         {
-            modificationUIPanel.SetActive(true);
-
-            WeaponModificationShop shop = modificationUIPanel.GetComponent<WeaponModificationShop>();
-            if (shop != null)
+            if (shopLogic != null)
             {
-                shop.Initialize(playerObject.GetComponent<PlayerStats>());
-                shop.UpdateUI();
+                shopLogic.Interact(stats);
             }
-
-            Time.timeScale = 0f;
+            else
+            {
+                if (modificationUIPanel != null)
+                {
+                    modificationUIPanel.SetActive(true);
+                    WeaponModificationShopUI shopUI = modificationUIPanel.GetComponent<WeaponModificationShopUI>();
+                    if (shopUI != null)
+                        shopUI.SetPlayerStats(stats);
+                    Time.timeScale = 0f;
+                }
+            }
         }
     }
+
+
 
     public void CloseModificationMenu()
     {

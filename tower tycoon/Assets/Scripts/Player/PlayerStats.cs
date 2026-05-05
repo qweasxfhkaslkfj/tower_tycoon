@@ -1,15 +1,44 @@
 using UnityEngine;
 using TMPro;
-using UnityEditor.ShaderKeywordFilter;
 
 public class PlayerStats : MonoBehaviour
 {
+    private static PlayerStats instance;
+    public static PlayerStats Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PlayerStats>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject("PlayerStats");
+                    instance = obj.AddComponent<PlayerStats>();
+                }
+            }
+            return instance;
+        }
+    }
 
-    private int totalMoney = 50; 
+    private int totalMoney = 400;
 
     [Header("UI Settings")]
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private int rewardPerEnemy = 10;
+
+    void Awake() 
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -56,6 +85,6 @@ public class PlayerStats : MonoBehaviour
 
     public static void ResetInstance()
     {
-        Instance = null;
+        instance = null;
     }
 }

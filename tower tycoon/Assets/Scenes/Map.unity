@@ -794,7 +794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &398613806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,16 +1127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponModificationShop
   explosiveCost: 300
   freezeCost: 350
-  moneyText: {fileID: 2046588279}
-  messageText: {fileID: 172163075}
-  messageDuration: 2
-  explosivePurchaseButton: {fileID: 654567123}
-  explosiveCostText: {fileID: 332533482}
-  explosiveStatusText: {fileID: 912460255}
-  freezePurchaseButton: {fileID: 713056384}
-  freezeCostText: {fileID: 1609510985}
-  freezeStatusText: {fileID: 1145995351}
-  closeButton: {fileID: 585521455}
 --- !u!1 &483972203
 GameObject:
   m_ObjectHideFlags: 0
@@ -34950,6 +34940,67 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &1960709637
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 467870417585825616, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980525923614787179, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_Name
+      value: Warrior_Idle_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.9646335
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0647666
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
 --- !u!1 &1970572364
 GameObject:
   m_ObjectHideFlags: 0
@@ -35438,17 +35489,6 @@ MonoBehaviour:
   discountValues:
   - 0.5
   - 0.8
-  moneyText: {fileID: 2046588279}
-  speedUpgradeButton: {fileID: 1922528314}
-  discountUpgradeButton: {fileID: 1633787231}
-  speedLevelText: {fileID: 69028263}
-  discountLevelText: {fileID: 1893185626}
-  speedCostText: {fileID: 1660822776}
-  discountCostText: {fileID: 1758742845}
-  speedBonusText: {fileID: 875974126}
-  discountBonusText: {fileID: 400599857}
-  messageText: {fileID: 686482492}
-  messageDuration: 2
 --- !u!114 &2044580381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35611,3 +35651,4 @@ SceneRoots:
   - {fileID: 54309568}
   - {fileID: 1619631970}
   - {fileID: 398613809}
+  - {fileID: 1960709637}

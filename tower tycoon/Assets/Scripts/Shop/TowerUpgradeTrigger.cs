@@ -15,12 +15,14 @@ public class UpgradeTower : MonoBehaviour
 
     private bool isPlayerInRange = false;
     private GameObject playerObject;
+    private PlayerUpgradeShopLogic shopLogic;
 
     void Start()
     {
         if (upgradeUIPanel != null)
             upgradeUIPanel.SetActive(false);
 
+        shopLogic = GetComponent<PlayerUpgradeShopLogic>();
     }
 
     void Update()
@@ -29,7 +31,6 @@ public class UpgradeTower : MonoBehaviour
         {
             OpenUpgradeMenu();
             OnInteract?.Invoke();
-
         }
     }
 
@@ -61,21 +62,25 @@ public class UpgradeTower : MonoBehaviour
 
     void OpenUpgradeMenu()
     {
-        if (upgradeUIPanel != null && playerObject != null)
+        PlayerStats stats = playerObject?.GetComponent<PlayerStats>();
+
+        if (stats != null)
         {
-            upgradeUIPanel.SetActive(true);
-
-            PlayerController playerController = playerObject.GetComponent<PlayerController>();
-            PlayerStats playerStats = PlayerStats.Instance;
-
-            PlayerUpgradeShop shop = upgradeUIPanel.GetComponent<PlayerUpgradeShop>();
-            if (shop != null)
+            if (shopLogic != null)
             {
-                shop.Initialize(playerController, playerStats);
-                shop.UpdateUI();
+                shopLogic.Interact(stats);
             }
-
-            Time.timeScale = 0f;
+            else
+            {
+                if (upgradeUIPanel != null)
+                {
+                    upgradeUIPanel.SetActive(true);
+                    PlayerUpgradeShopUI shopUI = upgradeUIPanel.GetComponent<PlayerUpgradeShopUI>();
+                    if (shopUI != null)
+                        shopUI.SetPlayerStats(stats);
+                    Time.timeScale = 0f;
+                }
+            }
         }
     }
 
