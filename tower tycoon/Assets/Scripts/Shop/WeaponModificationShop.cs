@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public class WeaponModificationShop : MonoBehaviour
+public class WeaponModificationShop : MonoBehaviour, IInteractableObject
 {
-    [SerializeField] private PlayerStats playerStats;
+    private PlayerStats playerStats;
 
     [Header("Modification Settings")]
     [SerializeField] private int explosiveCost = 300;
@@ -36,6 +36,11 @@ public class WeaponModificationShop : MonoBehaviour
     // Key for saving data
     private const string EXPLOSIVE_MOD_KEY = "HasExplosiveMod";
     private const string FREEZE_MOD_KEY = "HasFreezeMod";
+
+    // Public getters for other scripts to check what mods are bought
+    public bool HasExplosiveMod => hasExplosiveMod;
+    public bool HasFreezeMod => hasFreezeMod;
+    public UpgradeType upgradeType => UpgradeType.TurretUpgrade;
 
     void Start()
     {
@@ -221,7 +226,8 @@ public class WeaponModificationShop : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // Public getters for other scripts to check what mods are bought
-    public bool HasExplosiveMod => hasExplosiveMod;
-    public bool HasFreezeMod => hasFreezeMod;
+    public void Interact(PlayerStats playerStats)
+    {
+        this.playerStats = playerStats;
+    }
 }
