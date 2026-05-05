@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    // Public fields
+    // Fields
     private InteractableObject currentInteractable;
+    private GameInput gameInput;
     public GameObject promptPanel;
     public Text promptText;
 

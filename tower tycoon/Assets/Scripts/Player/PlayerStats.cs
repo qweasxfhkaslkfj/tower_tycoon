@@ -1,9 +1,9 @@
 using UnityEngine;
 using TMPro;
+using UnityEditor.ShaderKeywordFilter;
 
 public class PlayerStats : MonoBehaviour
 {
-    public static PlayerStats Instance;
 
     private int totalMoney = 50; 
 
@@ -11,16 +11,10 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private int rewardPerEnemy = 10;
 
-    void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
-
     void Start()
     {
+        if (moneyText == null)
+            moneyText = GetComponentInChildren<TextMeshProUGUI>();
         UpdateMoneyUI();
     }
 

@@ -5,6 +5,8 @@ using TMPro;
 
 public class WeaponModificationShop : MonoBehaviour
 {
+    [SerializeField] private PlayerStats playerStats;
+
     [Header("Modification Settings")]
     [SerializeField] private int explosiveCost = 300;
     [SerializeField] private int freezeCost = 350;
@@ -31,16 +33,14 @@ public class WeaponModificationShop : MonoBehaviour
     private bool hasExplosiveMod = false;
     private bool hasFreezeMod = false;
 
-    // References
-    private PlayerStats playerStats;
-
     // Key for saving data
     private const string EXPLOSIVE_MOD_KEY = "HasExplosiveMod";
     private const string FREEZE_MOD_KEY = "HasFreezeMod";
 
     void Start()
     {
-        playerStats = PlayerStats.Instance;
+        if (playerStats == null)
+            Debug.LogError("playerStats == null");
 
         // Load saved modifications
         LoadModifications();

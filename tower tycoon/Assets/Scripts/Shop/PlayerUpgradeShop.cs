@@ -35,28 +35,23 @@ public class PlayerUpgradeShop : MonoBehaviour
     private int currentDiscountLevel = 0;
 
     // References to player components
-    private NewMonoBehaviourScript playerController; // Reference to player movement script
+    private PlayerController playerController; // Reference to player movement script
     private PlayerStats playerStats; // Reference to player stats (money)
     private float currentDiscount = 0f; // Local storage of current discount value
 
     void Start()
     {
-        // Find and store player components
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (playerStats == null)
+            Debug.LogError("playerStats == null");
+        if (playerController == null)
         {
-            playerController = player.GetComponent<NewMonoBehaviourScript>(); // Get movement script
-            playerStats = PlayerStats.Instance; // Get stats via singleton
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null) playerController = player.GetComponent<PlayerController>();
         }
 
-        // Subscribe button click events to their methods
-        if (speedUpgradeButton != null)
-            speedUpgradeButton.onClick.AddListener(UpgradeSpeed);
-
-        if (discountUpgradeButton != null)
-            discountUpgradeButton.onClick.AddListener(UpgradeDiscount);
-
-        UpdateUI(); // Initialize UI with current values
+        speedUpgradeButton?.onClick.AddListener(UpgradeSpeed);
+        discountUpgradeButton?.onClick.AddListener(UpgradeDiscount);
+        UpdateUI();
     }
 
     // Updates all UI elements with current stats and money
