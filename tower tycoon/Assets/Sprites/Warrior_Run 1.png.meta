@@ -1,32 +1,25 @@
 fileFormatVersion: 2
-guid: e8f8918023c3f4319a6f266e8b74fc4c
-AssetOrigin:
-  serializedVersion: 1
-  productId: 352566
-  packageName: Tiny Swords
-  packageVersion: 1.0
-  assetPath: Assets/Tiny Swords/Units/Black Units/Warrior/Warrior_Run.png
-  uploadId: 844324
+guid: 25bd56178e44b334399cf6291a475857
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -432731726981308715
-    second: Warrior_Run_0
+      213: -1881124854224882949
+    second: Warrior_Run 1_0
   - first:
-      213: 8551124423323264409
-    second: Warrior_Run_1
+      213: -263023099231485282
+    second: Warrior_Run 1_1
   - first:
-      213: -8600065048725663906
-    second: Warrior_Run_2
+      213: 5458504525584143529
+    second: Warrior_Run 1_2
   - first:
-      213: 3241423924572654580
-    second: Warrior_Run_3
+      213: 7341494798796680009
+    second: Warrior_Run 1_3
   - first:
-      213: -5828329696384875631
-    second: Warrior_Run_4
+      213: -4526064630532438007
+    second: Warrior_Run 1_4
   - first:
-      213: 2022560608615539102
-    second: Warrior_Run_5
+      213: 8911873171216766131
+    second: Warrior_Run 1_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -59,7 +52,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -73,12 +66,14 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationMethod: 0
   spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -97,7 +92,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -118,150 +113,137 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Warrior_Run_0
+      name: Warrior_Run 1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 192
-        height: 192
+        x: 61
+        y: 54
+        width: 78
+        height: 86
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5dedc3a79c0aef9f0800000000000000
-      internalID: -432731726981308715
+      spriteID: bf274c569e6e4e5e0800000000000000
+      internalID: -1881124854224882949
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warrior_Run_1
+      name: Warrior_Run 1_1
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 192
-        height: 192
+        x: 256
+        y: 54
+        width: 69
+        height: 93
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 995a9527b52bba670800000000000000
-      internalID: 8551124423323264409
+      spriteID: e92c59282ed895cf0800000000000000
+      internalID: -263023099231485282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warrior_Run_2
+      name: Warrior_Run 1_2
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 192
-        height: 192
+        x: 448
+        y: 54
+        width: 69
+        height: 93
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e5f447d376e66a880800000000000000
-      internalID: -8600065048725663906
+      spriteID: 9a41e4412f080cb40800000000000000
+      internalID: 5458504525584143529
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warrior_Run_3
+      name: Warrior_Run 1_3
       rect:
         serializedVersion: 2
-        x: 576
-        y: 0
-        width: 192
-        height: 192
+        x: 637
+        y: 54
+        width: 78
+        height: 87
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fb0b96b2e9dbfc20800000000000000
-      internalID: 3241423924572654580
+      spriteID: 94b67a26f9a32e560800000000000000
+      internalID: 7341494798796680009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warrior_Run_4
+      name: Warrior_Run 1_4
       rect:
         serializedVersion: 2
-        x: 768
-        y: 0
-        width: 192
-        height: 192
+        x: 820
+        y: 54
+        width: 95
+        height: 93
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1938e1d550d9d1fa0800000000000000
-      internalID: -5828329696384875631
+      spriteID: 90887aad2303031c0800000000000000
+      internalID: -4526064630532438007
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warrior_Run_5
+      name: Warrior_Run 1_5
       rect:
         serializedVersion: 2
-        x: 960
-        y: 0
-        width: 192
-        height: 192
+        x: 1013
+        y: 54
+        width: 90
+        height: 91
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e912a355824911c10800000000000000
-      internalID: 2022560608615539102
+      spriteID: 3b495bd9e655dab70800000000000000
+      internalID: 8911873171216766131
       vertices: []
       indices: 
       edges: []
@@ -270,7 +252,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 68abfd5ab53cb4f3bbdd5dd3eddb16fc
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -278,16 +260,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":192.0,"y":192.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      Warrior_Run_0: -432731726981308715
-      Warrior_Run_1: 8551124423323264409
-      Warrior_Run_2: -8600065048725663906
-      Warrior_Run_3: 3241423924572654580
-      Warrior_Run_4: -5828329696384875631
-      Warrior_Run_5: 2022560608615539102
+      Warrior_Run 1_0: -1881124854224882949
+      Warrior_Run 1_1: -263023099231485282
+      Warrior_Run 1_2: 5458504525584143529
+      Warrior_Run 1_3: 7341494798796680009
+      Warrior_Run 1_4: -4526064630532438007
+      Warrior_Run 1_5: 8911873171216766131
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

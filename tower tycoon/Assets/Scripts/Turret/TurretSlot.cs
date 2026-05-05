@@ -20,13 +20,17 @@ public class TurretSlot : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && currentTurret == null)
-            UIManager.Instance.ShowBuildButton(this);
+            // ОТКУДА ВЗЯЛСЯ UIManager??????
+            //UIManager.Instance.ShowBuildButton(this);
+            Debug.Log("Можно строить турель");
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-            UIManager.Instance.HideBuildButton();
+            // ОТКУДА ВЗЯЛСЯ UIManager??????
+            //UIManager.Instance.HideBuildButton();
+            Debug.Log("Можно строить турель");
     }
 
     /// <summary>
