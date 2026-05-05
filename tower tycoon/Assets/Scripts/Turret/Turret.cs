@@ -45,7 +45,7 @@ public class Turret : MonoBehaviour
         if (data.projectilePrefab != null)
             projectilePool = ObjectPool.CreatePool(data.projectilePrefab, 10);
 
-        enemyManager = FindObjectOfType<EnemyManager>();
+        enemyManager = FindAnyObjectByType<EnemyManager>();
     }
 
     private void Update()
