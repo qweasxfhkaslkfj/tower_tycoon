@@ -22,7 +22,7 @@ public class Turret : MonoBehaviour
     private EnemyManager enemyManager;
 
     // Состояния управления / Control states (устанавливаются TurretManager)
-    public bool IsAutomatic { get; set; } = false;
+    public bool IsAutomatic { get; set; } = true;  // ← ИЗМЕНЕНО: true по умолчанию
     public bool IsPlayerNearby { get; set; } = false;
 
     /// <summary> Установить привязку к пути (вызывается слотом) / Set path binding (called by slot) </summary>
@@ -46,6 +46,10 @@ public class Turret : MonoBehaviour
             projectilePool = ObjectPool.CreatePool(data.projectilePrefab, 10);
 
         enemyManager = FindObjectOfType<EnemyManager>();
+
+        // Принудительно включаем автоматическую стрельбу
+        IsAutomatic = true;
+        Debug.Log($"[Turret] Турель инициализирована. Автоматический режим: {IsAutomatic}");
     }
 
     private void Update()
@@ -142,8 +146,11 @@ public class Turret : MonoBehaviour
     /// <summary> Вызывается снарядом при убийстве врага / Called by projectile when enemy is killed </summary>
     public void AddKillReward()
     {
-        // TODO: Интеграция с валютой / Currency integration
-        Debug.Log($"[Turret] +{currentKillReward} gold");
+        if (PlayerStats.Instance != null)
+        {
+            PlayerStats.Instance.AddMoney(currentKillReward);
+            Debug.Log($"[Turret] +{currentKillReward} gold to player");
+        }
     }
 
     // ====== Улучшения / Upgrades ======
@@ -164,5 +171,6 @@ public class Turret : MonoBehaviour
         upgradeLevel++;
         currentDamage = Mathf.RoundToInt(currentDamage * UPGRADE_MULTIPLIER);
         currentKillReward = Mathf.Max(1, Mathf.RoundToInt(currentKillReward * UPGRADE_MULTIPLIER));
+        Debug.Log($"[Turret] Улучшена до уровня {upgradeLevel}! Урон: {currentDamage}, Награда: {currentKillReward}");
     }
 }

@@ -9,7 +9,7 @@ public class WeaponModificationShopLogic : MonoBehaviour, IInteractableObject
     [SerializeField] private int freezeCost = 350;
 
     [Header("UI Settings")]
-    [SerializeField] private GameObject modificationUIPanel; 
+    [SerializeField] private GameObject modificationUIPanel;
 
     private bool hasExplosiveMod = false;
     private bool hasFreezeMod = false;

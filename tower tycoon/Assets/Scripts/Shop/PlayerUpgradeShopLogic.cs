@@ -112,9 +112,9 @@ public class PlayerUpgradeShopLogic : MonoBehaviour, IInteractableObject
 
         int cost = speedCosts[currentSpeedLevel];
 
-        if (playerStats != null && playerStats.GetMoney() >= cost)
+        // Используем SpendMoney для проверки и списания
+        if (playerStats != null && playerStats.SpendMoney(cost))
         {
-            playerStats.AddMoney(-cost);
             currentSpeedLevel++;
 
             if (playerController != null)
@@ -146,9 +146,8 @@ public class PlayerUpgradeShopLogic : MonoBehaviour, IInteractableObject
 
         int cost = discountCosts[currentDiscountLevel];
 
-        if (playerStats != null && playerStats.GetMoney() >= cost)
+        if (playerStats != null && playerStats.SpendMoney(cost))
         {
-            playerStats.AddMoney(-cost);
             currentDiscountLevel++;
             currentDiscount = discountValues[currentDiscountLevel - 1];
 
@@ -185,7 +184,7 @@ public class PlayerUpgradeShopLogic : MonoBehaviour, IInteractableObject
             }
         }
 
-       
+
     }
 }
 

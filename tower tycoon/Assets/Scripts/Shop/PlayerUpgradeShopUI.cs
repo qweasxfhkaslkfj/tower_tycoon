@@ -18,7 +18,7 @@ public class PlayerUpgradeShopUI : MonoBehaviour
     [SerializeField] private float messageDuration = 2f;
 
     [Header("Close Button")]
-    [SerializeField] private Button closeButton; 
+    [SerializeField] private Button closeButton;
 
     private PlayerUpgradeShopLogic shopLogic;
     private PlayerStats playerStats;
