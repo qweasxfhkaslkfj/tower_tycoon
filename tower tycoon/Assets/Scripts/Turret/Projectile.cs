@@ -20,8 +20,6 @@ public class Projectile : MonoBehaviour
         this.splashRadius = splashRadius;
         this.killReward = reward;
         this.owner = owner;
-
-        Debug.Log($"[Projectile] Создан! Цель: {(target != null ? target.name : "NULL")}, Урон: {damage}");
     }
 
     private void Update()
@@ -43,8 +41,6 @@ public class Projectile : MonoBehaviour
 
     private void HitTarget()
     {
-        Debug.Log($"[Projectile] ПОПАДАНИЕ! Урон: {damage}");
-
         if (explosive && splashRadius > 0f)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, splashRadius);
@@ -64,11 +60,6 @@ public class Projectile : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage, owner);
-                Debug.Log($"[Projectile] Нанесён урон {damage} врагу");
-            }
-            else
-            {
-                Debug.LogError("[Projectile] У цели нет компонента Enemy!");
             }
         }
 

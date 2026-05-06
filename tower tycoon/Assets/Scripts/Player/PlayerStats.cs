@@ -10,8 +10,16 @@ public class PlayerStats : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<PlayerStats>();
-                if (instance == null)
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    instance = player.GetComponent<PlayerStats>();
+                    if (instance == null)
+                    {
+                        instance = player.AddComponent<PlayerStats>();
+                    }
+                }
+                else
                 {
                     GameObject obj = new GameObject("PlayerStats");
                     instance = obj.AddComponent<PlayerStats>();
@@ -21,18 +29,18 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private int totalMoney = 400;
+    private int totalMoney = 50;
 
     [Header("UI Settings")]
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private int rewardPerEnemy = 10;
 
-    void Awake() 
+    void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
@@ -51,11 +59,6 @@ public class PlayerStats : MonoBehaviour
     {
         totalMoney += amount;
         UpdateMoneyUI();
-
-        if (amount > 0)
-            Debug.Log($"Получено {amount} монет! Всего: {totalMoney}");
-        else
-            Debug.Log($"Потрачено {-amount} монет! Осталось: {totalMoney}");
     }
 
     public void AddEnemyReward()
@@ -67,8 +70,6 @@ public class PlayerStats : MonoBehaviour
     {
         if (moneyText != null)
             moneyText.text = $"{totalMoney}";
-        else
-            Debug.LogWarning("Money Text not assigned in the inspector!");
     }
 
     public int GetMoney() => totalMoney;
