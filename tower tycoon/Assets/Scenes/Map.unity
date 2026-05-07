@@ -1069,7 +1069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &398613806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1433,47 +1433,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponModificationShop
   explosiveCost: 300
   freezeCost: 350
-  moneyText: {fileID: 2046588279}
-  messageText: {fileID: 172163075}
-  messageDuration: 2
-  explosivePurchaseButton: {fileID: 654567123}
-  explosiveCostText: {fileID: 332533482}
-  explosiveStatusText: {fileID: 912460255}
-  freezePurchaseButton: {fileID: 713056384}
-  freezeCostText: {fileID: 1609510985}
-  freezeStatusText: {fileID: 1145995351}
-  closeButton: {fileID: 585521455}
---- !u!1 &469504472
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 469504473}
-  m_Layer: 0
-  m_Name: Waypoint_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &469504473
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469504472}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.94, y: -2.23, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1119691456}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &483972203
 GameObject:
   m_ObjectHideFlags: 0
@@ -4218,7 +4177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23529412, g: 0.09803922, b: 0.09803922, a: 0.8627451}
+  m_Color: {r: 0.5377358, g: 0, b: 0, a: 0.8627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5478,7 +5437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.83214664, g: 0.9433962, b: 0.8892446, a: 0}
+  m_Color: {r: 0.73742825, g: 0.745283, b: 0.10898005, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6669,7 +6628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
+  m_Color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -35401,6 +35360,67 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &1960709637
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 467870417585825616, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980525923614787179, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_Name
+      value: Warrior_Idle_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.9646335
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0647666
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852632020409242544, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bdbd4cf67611b5e4587c8fb8b111c2d1, type: 3}
 --- !u!1 &1970572364
 GameObject:
   m_ObjectHideFlags: 0
@@ -35798,6 +35818,7 @@ GameObject:
   - component: {fileID: 2044580379}
   - component: {fileID: 2044580378}
   - component: {fileID: 2044580380}
+  - component: {fileID: 2044580381}
   m_Layer: 5
   m_Name: UpgradePlayerPanel
   m_TagString: Untagged
@@ -35842,7 +35863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.003921569}
+  m_Color: {r: 0.7169812, g: 0.6162516, b: 0.043965846, a: 0.003921569}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -35888,17 +35909,21 @@ MonoBehaviour:
   discountValues:
   - 0.5
   - 0.8
-  moneyText: {fileID: 2046588279}
-  speedUpgradeButton: {fileID: 1922528314}
-  discountUpgradeButton: {fileID: 1633787231}
-  speedLevelText: {fileID: 69028263}
-  discountLevelText: {fileID: 1893185626}
-  speedCostText: {fileID: 1660822776}
-  discountCostText: {fileID: 1758742845}
-  speedBonusText: {fileID: 875974126}
-  discountBonusText: {fileID: 400599857}
-  messageText: {fileID: 686482492}
-  messageDuration: 2
+--- !u!114 &2044580381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044580376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &2046588277
 GameObject:
   m_ObjectHideFlags: 0
@@ -36077,8 +36102,4 @@ SceneRoots:
   - {fileID: 54309568}
   - {fileID: 1619631970}
   - {fileID: 398613809}
-  - {fileID: 1119691456}
-  - {fileID: 404163434}
-  - {fileID: 1662952453}
-  - {fileID: 372886852}
-  - {fileID: 239584387}
+  - {fileID: 1960709637}

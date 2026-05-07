@@ -2,77 +2,86 @@ using UnityEngine;
 
 /// <summary>
 /// Противник: здоровье, получение урона, взаимодействие с менеджером и движением.
-/// Enemy: health, damage handling, interaction with manager and movement.
 /// </summary>
 public class Enemy : MonoBehaviour
 {
-    // Ссылки, устанавливаемые при инициализации / References set during initialization
     private EnemyManager manager;
     private Transform pathRoot;
 
-    /// <summary> Жив ли враг? / Is enemy alive? </summary>
-    public bool IsAlive { get; private set; } = true;
+    [Header("Health Settings")]
+    [SerializeField] private int maxHealth = 30;
+    private int currentHealth;
 
-    /// <summary> Позиция врага (для оптимизации) / Enemy position (optimized access) </summary>
+    [Header("Reward")]
+    [SerializeField] private int killReward = 10;
+
+    [Header("Debug")]
+    [SerializeField] private bool showDebugInfo = true;
+
+    public bool IsAlive { get; private set; } = true;
     public Vector2 Position => transform.position;
 
-    /// <summary>
-    /// Инициализация после создания (вызывается EnemyManager).
-    /// Initialization after spawn (called by EnemyManager).
-    /// </summary>
-    /// <param name="manager">Менеджер врагов / Enemy manager</param>
-    /// <param name="pathRoot">Корневой объект пути / Path root</param>
     public void Init(EnemyManager manager, Transform pathRoot)
     {
         this.manager = manager;
         this.pathRoot = pathRoot;
+        currentHealth = maxHealth;
+        IsAlive = true;
 
         EnemyMovement movement = GetComponent<EnemyMovement>();
         if (movement != null)
         {
             movement.InitPath(pathRoot);
         }
-        else
-        {
-            Debug.LogWarning($"Enemy {name}: компонент EnemyMovement отсутствует!");
-        }
     }
 
-    /// <summary>
-    /// Получить урон от турели. При смерти уведомляет менеджер.
-    /// Take damage from turret. Notifies manager on death.
-    /// </summary>
-    /// <param name="amount">Количество урона / Damage amount</param>
-    /// <param name="source">Турель, нанесшая урон (может быть null) / Turret that dealt damage</param>
     public void TakeDamage(int amount, Turret source = null)
     {
         if (!IsAlive) return;
 
-        // Здесь будет настоящая логика здоровья. Пока враг погибает от одного удара.
-        // Later: implement actual health; currently one-shot kill.
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
+        {
+            Die(source);
+        }
+    }
+
+    private void Die(Turret source)
+    {
         IsAlive = false;
 
-        // Награда турели за убийство / Reward turret for kill
-        source?.AddKillReward();
+        if (source != null)
+        {
+            source.AddKillReward();
+        }
+        else
+        {
+            if (PlayerStats.Instance != null)
+                PlayerStats.Instance.AddMoney(killReward);
+        }
 
-        // Сообщаем менеджеру о гибели врага (чтобы создать нового)
         manager?.OnEnemyDeath(this, pathRoot);
-
-        // Удаляем объект со сцены
         Destroy(gameObject);
     }
 
-    /// <summary>
-    /// Враг достиг конца пути (не убит, а просто ушёл).
-    /// Enemy reached end of path (not killed, just walked off).
-    /// </summary>
     public void ReachEnd()
     {
         if (!IsAlive) return;
         IsAlive = false;
-
         manager?.OnEnemyDeath(this, pathRoot);
-
         Destroy(gameObject);
+    }
+
+    public int GetCurrentHealth() => currentHealth;
+    public int GetMaxHealth() => maxHealth;
+
+    void OnGUI()
+    {
+        if (!showDebugInfo || !IsAlive) return;
+
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        GUI.Label(new Rect(screenPos.x - 30, Screen.height - screenPos.y - 20, 60, 20),
+                  $"HP: {currentHealth}/{maxHealth}");
     }
 }

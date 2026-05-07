@@ -22,7 +22,7 @@ public class Turret : MonoBehaviour
     private EnemyManager enemyManager;
 
     // Состояния управления / Control states (устанавливаются TurretManager)
-    public bool IsAutomatic { get; set; } = false;
+    public bool IsAutomatic { get; set; } = true;
     public bool IsPlayerNearby { get; set; } = false;
 
     /// <summary> Установить привязку к пути (вызывается слотом) / Set path binding (called by slot) </summary>
@@ -45,7 +45,10 @@ public class Turret : MonoBehaviour
         if (data.projectilePrefab != null)
             projectilePool = ObjectPool.CreatePool(data.projectilePrefab, 10);
 
-        enemyManager = FindAnyObjectByType<EnemyManager>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+
+        // Принудительно включаем автоматическую стрельбу
+        IsAutomatic = true;
     }
 
     private void Update()
@@ -142,8 +145,10 @@ public class Turret : MonoBehaviour
     /// <summary> Вызывается снарядом при убийстве врага / Called by projectile when enemy is killed </summary>
     public void AddKillReward()
     {
-        // TODO: Интеграция с валютой / Currency integration
-        Debug.Log($"[Turret] +{currentKillReward} gold");
+        if (PlayerStats.Instance != null)
+        {
+            PlayerStats.Instance.AddMoney(currentKillReward);
+        }
     }
 
     // ====== Улучшения / Upgrades ======
