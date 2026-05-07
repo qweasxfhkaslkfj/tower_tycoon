@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ModificationTrigger : MonoBehaviour
 {
@@ -7,11 +7,14 @@ public class ModificationTrigger : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
 
     private bool isPlayerInRange = false;
+    private WeaponModificationShopLogic shopLogic;
 
     void Start()
     {
         if (modificationUIPanel != null)
             modificationUIPanel.SetActive(false);
+
+        shopLogic = GetComponent<WeaponModificationShopLogic>();
     }
 
     void Update()
@@ -43,19 +46,30 @@ public class ModificationTrigger : MonoBehaviour
 
     void OpenModificationMenu()
     {
-        if (modificationUIPanel != null)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerStats stats = player?.GetComponent<PlayerStats>();
+
+        if (stats != null)
         {
-            modificationUIPanel.SetActive(true);
-
-            // Update UI with current data
-            WeaponModificationShop shop = modificationUIPanel.GetComponent<WeaponModificationShop>();
-            if (shop != null)
-                shop.UpdateUI();
-
-            // Pause game while shop is open
-            Time.timeScale = 0f;
+            if (shopLogic != null)
+            {
+                shopLogic.Interact(stats);
+            }
+            else
+            {
+                if (modificationUIPanel != null)
+                {
+                    modificationUIPanel.SetActive(true);
+                    WeaponModificationShopUI shopUI = modificationUIPanel.GetComponent<WeaponModificationShopUI>();
+                    if (shopUI != null)
+                        shopUI.SetPlayerStats(stats);
+                    Time.timeScale = 0f;
+                }
+            }
         }
     }
+
+
 
     public void CloseModificationMenu()
     {
