@@ -1,55 +1,17 @@
 using UnityEngine;
 
-/// <summary>
-/// Противник: здоровье, получение урона, взаимодействие с менеджером и движением.
-/// </summary>
-public class Enemy : MonoBehaviour
+/// <summary> Чистая модель врага / Pure enemy model </summary>
+public class Enemy
 {
-    private EnemyManager manager;
-    private Transform pathRoot;
-
-    [Header("Health Settings")]
-    [SerializeField] private int maxHealth = 30;
-    private int currentHealth;
-
-    [Header("Reward")]
-    [SerializeField] private int killReward = 10;
-
-    [Header("Debug")]
-    [SerializeField] private bool showDebugInfo = true;
-
-    public bool IsAlive { get; private set; } = true;
-    public Vector2 Position => transform.position;
-
-    public void Init(EnemyManager manager, Transform pathRoot)
-    {
-        this.manager = manager;
-        this.pathRoot = pathRoot;
-        currentHealth = maxHealth;
-        IsAlive = true;
-
-        EnemyMovement movement = GetComponent<EnemyMovement>();
-        if (movement != null)
-        {
-            movement.InitPath(pathRoot);
-        }
-    }
+    public Transform Transform { get; set; }
+    public Vector2 Position => Transform.position;
+    public bool IsAlive { get; set; } = true;
 
     public void TakeDamage(int amount, Turret source = null)
     {
         if (!IsAlive) return;
-
-        currentHealth -= amount;
-
-        if (currentHealth <= 0)
-        {
-            Die(source);
-        }
-    }
-
-    private void Die(Turret source)
-    {
         IsAlive = false;
+<<<<<<< HEAD
 
         if (source != null)
         {
@@ -83,5 +45,8 @@ public class Enemy : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         GUI.Label(new Rect(screenPos.x - 30, Screen.height - screenPos.y - 20, 60, 20),
                   $"HP: {currentHealth}/{maxHealth}");
+=======
+        source?.AddKillReward();
+>>>>>>> 8b2f60b585e9a081942ca76fcb2124ee1885b1a2
     }
 }

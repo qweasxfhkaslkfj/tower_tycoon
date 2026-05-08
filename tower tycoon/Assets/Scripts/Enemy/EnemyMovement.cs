@@ -1,75 +1,48 @@
 using UnityEngine;
 
-/// <summary>
-/// Двигает врага по набору точек пути / Moves enemy along waypoints.
-/// Точки берутся из дочерних объектов pathRoot.
-/// </summary>
+/// <summary> Движение врага по точкам пути / Enemy movement along waypoints </summary>
 public class EnemyMovement : MonoBehaviour
 {
-    [Header("Скорость / Movement speed")]
     [SerializeField] private float speed = 2f;
+    private Transform[] waypoints;
+    private int currentIndex;
+    private Enemy enemy;
+    private EnemyView enemyView;
 
-    private Transform[] waypoints; 
-    private int currentWaypointIndex;
-    private bool moving;
-
-    /// <summary>
-    /// Инициализация: получает путь от родительского pathRoot / Init: gets waypoints from pathRoot.
-    /// Вызывается из Enemy.Init или в Start.
-    /// </summary>
-    public void InitPath(Transform pathRoot)
+    public void InitPath(Transform pathRoot, Enemy enemy)
     {
-        if (pathRoot == null)
-        {
-            Debug.LogError("EnemyMovement: pathRoot is null");
-            enabled = false;
-            return;
-        }
+        this.enemy = enemy;
+        enemyView = GetComponent<EnemyView>();
 
+        if (pathRoot == null) return;
         waypoints = new Transform[pathRoot.childCount];
         for (int i = 0; i < pathRoot.childCount; i++)
-        {
             waypoints[i] = pathRoot.GetChild(i);
-        }
 
-        if (waypoints.Length == 0)
+        if (waypoints.Length > 0)
         {
-            Debug.LogWarning($"EnemyMovement: нет точек пути в {pathRoot.name}");
-            enabled = false;
-            return;
+            transform.position = waypoints[0].position;
+            currentIndex = 1;
         }
-
-        transform.position = waypoints[0].position;
-        currentWaypointIndex = 1;
-        moving = true;
     }
 
     private void Update()
     {
-        if (!moving || waypoints == null || currentWaypointIndex >= waypoints.Length)
+        if (waypoints == null || currentIndex >= waypoints.Length || enemy == null || !enemy.IsAlive)
             return;
 
-        Transform target = waypoints[currentWaypointIndex];
-        Vector2 direction = (target.position - transform.position).normalized;
+        Transform target = waypoints[currentIndex];
+        Vector2 dir = (target.position - transform.position).normalized;
+        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        if (dir != Vector2.zero)
+            transform.right = dir;
 
-        if (direction != Vector2.zero)
-            transform.right = direction;
-
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            target.position,
-            speed * Time.deltaTime);
-
-        if (((Vector2)transform.position - (Vector2)target.position).sqrMagnitude < 0.01f)
+        if (Vector2.Distance(transform.position, target.position) < 0.05f)
         {
-            currentWaypointIndex++;
-            if (currentWaypointIndex >= waypoints.Length)
+            currentIndex++;
+            if (currentIndex >= waypoints.Length)
             {
-                moving = false;
-                Enemy enemy = GetComponent<Enemy>();
-                if (enemy != null)
-                    enemy.ReachEnd();
-                Destroy(gameObject);
+                enemyView?.ReachEnd();
             }
         }
     }
