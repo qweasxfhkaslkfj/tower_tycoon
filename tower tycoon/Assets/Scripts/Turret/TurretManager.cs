@@ -1,34 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Управляет всеми турелями: ручное/автоматическое переключение
-/// </summary>
+/// <summary> Управляет режимами турелей (ручное/авто) / Turret mode manager </summary>
 public class TurretManager : MonoBehaviour
 {
     public static TurretManager Instance { get; private set; }
 
-    private List<Turret> allTurrets = new List<Turret>();
-    private Turret lastPlayerTurret;
+    private List<TurretView> allTurrets = new();
+    private TurretView lastPlayerTurret;
 
     private void Awake() => Instance = this;
 
-    public void RegisterTurret(Turret turret, Transform pathRoot)
+    /// <summary> Зарегистрировать новую турель / Register new turret </summary>
+    public void RegisterTurret(TurretView turretView)
     {
-        allTurrets.Add(turret);
-        turret.IsAutomatic = true;
-        SetAsLastPlayerTurret(turret);
+        allTurrets.Add(turretView);
+        SetLastPlayerTurret(turretView);
     }
 
-    private void SetAsLastPlayerTurret(Turret newTurret)
+    private void SetLastPlayerTurret(TurretView newTurret)
     {
         foreach (var t in allTurrets)
-            t.IsAutomatic = true;
+            t.SetModes(true, false); // все авто
 
         lastPlayerTurret = newTurret;
-        newTurret.IsAutomatic = false;
+        newTurret.SetModes(false, false); // новая пока не ручная, пока игрок не подойдёт
     }
 
+    /// <summary> Обновить близость игрока / Update player proximity </summary>
     public void UpdatePlayerProximity(Vector2 playerPos, float radius)
     {
         float sqrRadius = radius * radius;
@@ -36,12 +35,12 @@ public class TurretManager : MonoBehaviour
         {
             if (turret == lastPlayerTurret)
             {
-                turret.IsPlayerNearby =
-                    ((Vector2)turret.transform.position - playerPos).sqrMagnitude <= sqrRadius;
+                bool near = ((Vector2)turret.transform.position - playerPos).sqrMagnitude <= sqrRadius;
+                turret.SetModes(false, near); // ручная, если игрок рядом
             }
             else
             {
-                turret.IsPlayerNearby = false;
+                turret.SetModes(true, false);
             }
         }
     }
