@@ -29,11 +29,12 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private int totalMoney = 50;
+    [SerializeField] private int totalMoney = 50;
 
     [Header("UI Settings")]
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private int rewardPerEnemy = 10;
+
 
     void Awake()
     {
