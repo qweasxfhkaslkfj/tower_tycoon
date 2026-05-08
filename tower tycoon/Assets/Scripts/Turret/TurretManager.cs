@@ -1,33 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary> Управляет режимами турелей (ручное/авто) / Turret mode manager </summary>
+/// <summary>
+/// Управляет всеми турелями: ручное/автоматическое переключение
+/// </summary>
 public class TurretManager : MonoBehaviour
 {
     public static TurretManager Instance { get; private set; }
 
-    private List<TurretView> allTurrets = new();
-    private TurretView lastPlayerTurret;
+    private List<Turret> allTurrets = new List<Turret>();
+    private Turret lastPlayerTurret;
 
     private void Awake() => Instance = this;
 
-    /// <summary> Зарегистрировать новую турель / Register new turret </summary>
-    public void RegisterTurret(TurretView turretView)
+    public void RegisterTurret(Turret turret, Transform pathRoot)
     {
-        allTurrets.Add(turretView);
-        SetLastPlayerTurret(turretView);
+        allTurrets.Add(turret);
+        turret.IsAutomatic = true;
+        SetAsLastPlayerTurret(turret);
     }
 
-    private void SetLastPlayerTurret(TurretView newTurret)
+    private void SetAsLastPlayerTurret(Turret newTurret)
     {
         foreach (var t in allTurrets)
-            t.SetModes(true, false); // все авто
+            t.IsAutomatic = true;
 
         lastPlayerTurret = newTurret;
-        newTurret.SetModes(false, false); // новая пока не ручная, пока игрок не подойдёт
+        newTurret.IsAutomatic = false;
     }
 
-    /// <summary> Обновить близость игрока / Update player proximity </summary>
     public void UpdatePlayerProximity(Vector2 playerPos, float radius)
     {
         float sqrRadius = radius * radius;
@@ -35,12 +36,12 @@ public class TurretManager : MonoBehaviour
         {
             if (turret == lastPlayerTurret)
             {
-                bool near = ((Vector2)turret.transform.position - playerPos).sqrMagnitude <= sqrRadius;
-                turret.SetModes(false, near); // ручная, если игрок рядом
+                turret.IsPlayerNearby =
+                    ((Vector2)turret.transform.position - playerPos).sqrMagnitude <= sqrRadius;
             }
             else
             {
-                turret.SetModes(true, false);
+                turret.IsPlayerNearby = false;
             }
         }
     }
