@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
 
     void OnGUI()
     {
-        if (!showDebugInfo || !IsAlive) return;
+        if (!showDebugInfo || !IsAlive || !Camera.main) return;
 
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         GUI.Label(new Rect(screenPos.x - 30, Screen.height - screenPos.y - 20, 60, 20),
