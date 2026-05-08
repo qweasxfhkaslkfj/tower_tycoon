@@ -16,7 +16,8 @@ public class GameInput : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            Destroy(this);
             return;
         }
 
