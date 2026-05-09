@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurretData
   attackSpeed: 2
   attackRange: 10
-  damage: 15
+  damage: 30
   baseKillReward: 10
   attackType: 0
   splashRadius: 0
