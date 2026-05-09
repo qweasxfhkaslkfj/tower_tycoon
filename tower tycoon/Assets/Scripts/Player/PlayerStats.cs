@@ -1,80 +1,37 @@
-using UnityEngine;
+using System;
 using TMPro;
+using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    private static PlayerStats instance;
-    public static PlayerStats Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-                if (player != null)
-                {
-                    instance = player.GetComponent<PlayerStats>();
-                    if (instance == null)
-                    {
-                        instance = player.AddComponent<PlayerStats>();
-                    }
-                }
-                else
-                {
-                    GameObject obj = new GameObject("PlayerStats");
-                    instance = obj.AddComponent<PlayerStats>();
-                }
-            }
-            return instance;
-        }
-    }
-
+    // Serialize Fields
     [SerializeField] private int totalMoney = 50;
-
-    [Header("UI Settings")]
-    [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private int rewardPerEnemy = 10;
 
+    public event Action<int> OnMoneyChanged;
 
-    void Awake()
+    // Start check
+    private void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+        if (OnMoneyChanged != null)
+            OnMoneyChanged(totalMoney);
     }
 
-    void Start()
-    {
-        if (moneyText == null)
-            moneyText = GetComponentInChildren<TextMeshProUGUI>();
-        UpdateMoneyUI();
-    }
-
+    // Add money
     public void AddMoney(int amount)
     {
         totalMoney += amount;
-        UpdateMoneyUI();
+        if (OnMoneyChanged != null)
+            OnMoneyChanged(totalMoney);
     }
 
+    // Reward per enemy
     public void AddEnemyReward()
     {
         AddMoney(rewardPerEnemy);
     }
 
-    void UpdateMoneyUI()
-    {
-        if (moneyText != null)
-            moneyText.text = $"{totalMoney}";
-    }
-
-    public int GetMoney() => totalMoney;
-
+    // Checking for sufficient money
     public bool SpendMoney(int amount)
     {
         if (totalMoney >= amount)
@@ -85,8 +42,9 @@ public class PlayerStats : MonoBehaviour
         return false;
     }
 
-    public static void ResetInstance()
+    // Current money
+    public int GetMoney()
     {
-        instance = null;
+        return totalMoney;
     }
 }
