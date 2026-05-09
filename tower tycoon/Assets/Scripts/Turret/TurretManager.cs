@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Управляет всеми турелями: ручное/автоматическое переключение
+/// Управляет всеми турелями: ручное/автоматическое переключение / Manages all turrets
 /// </summary>
 public class TurretManager : MonoBehaviour
 {
@@ -13,10 +13,10 @@ public class TurretManager : MonoBehaviour
 
     private void Awake() => Instance = this;
 
+    /// <summary> Зарегистрировать новую турель / Register a new turret </summary>
     public void RegisterTurret(Turret turret, Transform pathRoot)
     {
         allTurrets.Add(turret);
-        turret.IsAutomatic = true;
         SetAsLastPlayerTurret(turret);
     }
 
@@ -29,6 +29,7 @@ public class TurretManager : MonoBehaviour
         newTurret.IsAutomatic = false;
     }
 
+    /// <summary> Обновить состояние близости игрока / Update player proximity for turrets </summary>
     public void UpdatePlayerProximity(Vector2 playerPos, float radius)
     {
         float sqrRadius = radius * radius;
