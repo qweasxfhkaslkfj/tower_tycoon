@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField] private int defaultMaxEnemiesPerPath = 3;
+
     public static EnemyManager Instance { get; private set; }
 
     [System.Serializable]
@@ -120,5 +122,36 @@ public class EnemyManager : MonoBehaviour
                 return info.spawnPoint;
         }
         return null;
+    }
+
+    // New method for creating pathes
+    public void RegisterPath(Transform pathRoot, Transform spawnPoint, int maxEnemies = -1)
+    {
+        if (pathRoot == null || spawnPoint == null)
+        {
+            Debug.LogError("pathRoot или spawnPoint равен null");
+            return;
+        }
+        if (pathEnemies.ContainsKey(pathRoot))
+        {
+            Debug.Log($"Путь {pathRoot.name} уже есть");
+            return;
+        }
+
+        int enemiesCount;
+        if (maxEnemies > 0)
+            enemiesCount = maxEnemies;
+        else
+            enemiesCount = defaultMaxEnemiesPerPath;
+
+        pathEnemies[pathRoot] = new List<Enemy>();
+
+
+        for (int i = 0; i < enemiesCount; i++)
+        {
+            SpawnEnemy(pathRoot, spawnPoint);
+        }
+
+        Debug.Log($"Зарегистрирован новый путь {pathRoot.name} с {enemiesCount} врагами");
     }
 }
